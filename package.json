@@ -1,0 +1,17 @@
+{
+  "name": "make-ttf",
+  "version": "1.0.0",
+  "description": "make ttf files from svg files",
+  "type": "module",
+  "main": "convert-svg-to-ttf.js",
+  "scripts": {
+    "generate_icons": "node convert-svg-to-ttf.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "svg2ttf": "^6.0.3",
+    "svgicons2svgfont": "^12.0.0"
+  }
+}
