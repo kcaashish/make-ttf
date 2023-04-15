@@ -52,9 +52,20 @@ setup() {
 	echo "Cloning submodules..."
 	git submodule update --init --recursive
 
+	# create a json file called mapping.json that maps the icon names to the unicode values for octicons
+	if [ -d "submodules/octicons" ]; then
+		echo "Creating mapping.json for octicons..."
+		python $(pwd)/scripts/mapping.py $(pwd)/submodules/octicons/icons -n 61697 -o $(pwd)/input-icons/octicons.json
+	fi
+
+	# copy the mapping.json in codicons/src/templates to codicons/src/icons
+	if [ -d "submodules/codicons" ]; then
+		echo "Moving mapping.json to codicons/src/icons..."
+		cp $(pwd)/submodules/codicons/src/template/mapping.json $(pwd)/input-icons/codicons.json
+	fi
+
 	# create the new symlinks
 	echo "Creating new symlinks..."
 	ln -s $(readlink -f submodules/octicons/icons) $(pwd)/input-icons/octicons &&
 		ln -s $(readlink -f submodules/codicons/src/icons) $(pwd)/input-icons/codicons
-
 }
