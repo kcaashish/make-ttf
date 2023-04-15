@@ -55,7 +55,7 @@ setup() {
 	# create a json file called mapping.json that maps the icon names to the unicode values for octicons
 	if [ -d "submodules/octicons" ]; then
 		echo "Creating mapping.json for octicons..."
-		python $(pwd)/scripts/mapping.py $(pwd)/submodules/octicons/icons -n 61697 -o $(pwd)/input-icons/octicons.json
+		python $(pwd)/scripts/mapping.py $(pwd)/submodules/octicons/icons -n 64840 -o $(pwd)/input-icons/octicons.json
 	fi
 
 	# copy the mapping.json in codicons/src/templates to codicons/src/icons
