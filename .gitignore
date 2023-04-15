@@ -46,6 +46,7 @@ jspm_packages/
 web_modules/
 input-icons/
 output/
+fontpatcher/
 
 # TypeScript cache
 *.tsbuildinfo
