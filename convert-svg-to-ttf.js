@@ -6,6 +6,7 @@ import {
   readdir,
   readdirSync,
   writeFileSync,
+  lstatSync,
 } from "fs";
 import { basename, extname, join } from "path";
 import svg2ttf from "svg2ttf";
@@ -26,6 +27,11 @@ readdir(inputDir, (err, folders) => {
   folders.forEach((folder) => {
     const fontName = folder;
     const svgDir = join(inputDir, folder);
+
+    // Skip any non directory files
+    if (!lstatSync(svgDir).isSymbolicLink()) {
+      return;
+    }
     const outputFilename = join(outputDir, `${fontName}.ttf`);
 
     // Get an array of SVG files in the subfolder
@@ -33,11 +39,12 @@ readdir(inputDir, (err, folders) => {
       (file) => extname(file).toLowerCase() === ".svg"
     );
 
-    // Initialize a variable to hold the code point
-    let codePoint = 0xe001;
+    // Read the json file of the same name as the folder present in input-icons directory
+    const jsonFile = join(inputDir, `${folder}.json`);
+    const json = JSON.parse(readFileSync(jsonFile, "utf8"));
 
     // Map the SVG files to an array of glyphs
-    const glyphs = svgFiles.map((file, index) => {
+    const glyphs = svgFiles.map((file) => {
       const svgPath = join(svgDir, file);
       const glyphName = basename(svgPath, ".svg");
       const svg = readFileSync(svgPath, "utf8");
@@ -45,7 +52,7 @@ readdir(inputDir, (err, folders) => {
         name: glyphName,
         path: svgPath,
         contents: svg,
-        codepoint: codePoint + index,
+        codepoint: json[glyphName],
       };
     });
 
